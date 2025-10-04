@@ -70,6 +70,9 @@
       background:linear-gradient(135deg,var(--brand),var(--brand-strong));
       color:#07140b;border:1px solid rgba(0,0,0,.25)
     }
+    .btn-secondary {
+      background:#444;color:#fff;border:1px solid rgba(0,0,0,.25)
+    }
     .btn-linkedin {
       background:#0a66c2;color:#fff;border:1px solid rgba(0,0,0,.25)
     }
@@ -77,8 +80,24 @@
     .meta {
       display:flex;justify-content:space-between;gap:10px;align-items:center;
       border-top:1px solid var(--border);padding:14px 20px;
-      color:var(--muted);font-size:13px
+      color:var(--muted);font-size:13px;flex-wrap:wrap;position:relative
     }
+    .meta a { color:var(--muted);text-decoration:none;cursor:pointer;position:relative }
+    .meta a:hover { color:var(--text) }
+    .tooltip {
+      position:absolute;
+      bottom:140%; left:0; transform:translateX(-10%);
+      background:var(--brand-strong);
+      color:#fff;
+      padding:4px 8px;
+      border-radius:6px;
+      font-size:12px;
+      white-space:nowrap;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .3s ease;
+    }
+    .tooltip.show { opacity:1 }
     .partners { padding:34px 26px;text-align:center }
     .partners p { color:var(--muted);margin:0 }
     .placeholder-logos {
@@ -114,13 +133,34 @@
         <p class="lead">Our website is on the way. For inquiries, partnerships, or quotes, reach us directly.</p>
 
         <div class="actions">
-          <a class="btn btn-primary" href="mailto:ecobizzsrl@gmail.com" aria-label="Email Ecobizz">Contact Us</a>
-          <a class="btn btn-linkedin" href="https://www.linkedin.com/in/eco-bizz-a588a5388/" target="_blank" rel="noopener noreferrer" aria-label="Open LinkedIn profile">LinkedIn</a>
+          <!-- Contact via mailto -->
+          <a class="btn btn-primary" 
+             href="mailto:ecobizzsrl@gmail.com" 
+             aria-label="Email Ecobizz">Contact Us</a>
+
+          <!-- Contact via Gmail -->
+          <a class="btn btn-secondary" 
+             href="https://mail.google.com/mail/?view=cm&to=ecobizzsrl@gmail.com" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             aria-label="Open Gmail to email Ecobizz">Contact via Gmail</a>
+
+          <!-- LinkedIn -->
+          <a class="btn btn-linkedin" 
+             href="https://www.linkedin.com/in/eco-bizz-a588a5388/" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             aria-label="Open LinkedIn profile">LinkedIn</a>
         </div>
       </div>
       <div class="meta">
-        <span>© 2025 Ecobizz SRL</span>
-        <span>Made responsibly 🌱</span>
+        <span>© 2025 Ecobizz SRL · Made responsibly 🌱</span>
+        <span>
+          <a id="footerEmail">ecobizzsrl@gmail.com
+            <span class="tooltip" id="tooltip">Copied!</span>
+          </a> · 
+          <a href="https://www.linkedin.com/in/eco-bizz-a588a5388/" target="_blank" rel="noopener">LinkedIn</a>
+        </span>
       </div>
     </section>
 
@@ -138,5 +178,26 @@
     </section>
 
   </main>
+
+  <script>
+    // Copy-to-clipboard with tooltip for footer email
+    (function(){
+      const emailLink = document.getElementById('footerEmail');
+      const tooltip = document.getElementById('tooltip');
+      const email = 'ecobizzsrl@gmail.com';
+      if (navigator.clipboard) {
+        emailLink.addEventListener('click', async function(e){
+          e.preventDefault();
+          try {
+            await navigator.clipboard.writeText(email);
+            tooltip.classList.add('show');
+            setTimeout(()=> tooltip.classList.remove('show'), 1500);
+          } catch(err) {
+            console.error(err);
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
